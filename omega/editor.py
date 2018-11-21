@@ -16,8 +16,10 @@ class Editor():
     def run(self):
         self.running = True
         self.mainloop()
+        curses.endwin()
 
     def mainloop(self):
+        self.window.keypad(True)
         while self.running:
             self.window.clear()
             self.window.addstr(0, 0, self.active_screen.get_text(), curses.COLOR_WHITE)
@@ -31,8 +33,9 @@ class Editor():
                 self.events_queue.append(Event("exit", True))
             if k in DIRECTIONAL_KEYS:
                 self.events_queue.append(Event("cursor_move", side = DIRECTIONAL_KEYS[k]))
+            else:
+                self.events_queue.append(Event("key_pressed", key_code = k))
 
-            self.events_queue.append(Event("key_pressed", key_code = k))
             self._treat_events()
 
     def quit(self):
