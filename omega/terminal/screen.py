@@ -24,7 +24,9 @@ class Screen(Events):
         self.text._value = self.text._value + chr(event.key_code)
 
     def cursor_move(self, event):
-        pass
+        side = event.side
+        self.cursorX = self.cursorX + side[0]
+        self.cursorY = self.cursorY + side[1]
     
     def exit(self, event):
         self.text.save(close = True)
